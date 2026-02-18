@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body{
+        margin: 0%;
+        padding: 0%;
+        box-sizing: border-box;
+    }
+    .input-1{
+        width: 350px;
+        height: 50px;
+    }
+    .input-2{
+        width: 350px;
+        height: 150px;
+    }
+    .container {
+    display: flex;
+    flex-direction: row;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin-left: 300px;
+    background-color: aliceblue;
+    width: 360px;
+    }
+    button {
+    margin-top: 20px;
+    padding: 8px;
+    width: 360px;
+    }
+    .definition{
+        display: flex;
+        align-items: center;
+    }
+
+</style>
+<body>
+    <div class="container">
+        <input class="input-1" type="text">
+        <p></p>
+        <p class="paragraph"></p>
+        <p class="definition"></p>
+        <button>Translate</button>
+    </div>
+
+</body>
+<script>
+const button = document.querySelector("button");
+const input1 = document.querySelector(".input-1");
+const input2 = document.querySelector("p");
+const paragraph = document.querySelector(".paragraph");
+const definition = document.querySelector(".definition");
+
+button.addEventListener("click", async function (){
+    const text = input1.value;
+    const newUrl = `https://api.mymemory.translated.net/get?q=${text}&langpair=en|ru`;
+    const promise = await fetch(newUrl);
+    const data = await promise.json();
+    
+    input2.innerText = `${data.matches[0].translation}`
+    const tagyUrl = `https://api.dictionaryapi.dev/api/v2/entries/en/${text}`;
+    const newPromise = await fetch(tagyUrl);
+    const newDate = await newPromise.json();
+    console.log(newDate);
+    paragraph.innerText = `${newDate[0].phonetic}`
+    definition.innerText = `${newDate[0].meanings[0].definitions[0].definition}`
+
+    
+
+
+})
+
+  
+</script>
+
+</html> 
